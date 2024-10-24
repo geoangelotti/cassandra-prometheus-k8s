@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cassandra-jmx-config
+data:
+  config.yaml: |
+    lowercaseOutputName: true
+    lowercaseOutputLabelNames: true
+    rules:
+    - pattern: org.apache.cassandra.metrics<type=(Connection|Streaming), scope=(\S*), name=(\S*)><>(Count|Value)
+      name: cassandra_$1_$3
+      labels:
+        scope: $2
+    - pattern: org.apache.cassandra.metrics<type=(\S*)(?:, (scope|keyspace)=(\S*))?><>(Count|Value)
+      name: cassandra_$1_$4
+      labels:
+        "$2": "$3"
