@@ -49,7 +49,7 @@ def main():
 			node = f"node{i+1}"
 			pv_yaml = create_pv_yaml(name,STORAGE_SIZE,path,node)
 			pvs.append(pv_yaml)
-	with open(f"out/local-massive-pv.yaml", 'w') as file:
+	with open(f"manifests/local-pv-massive.yaml", 'w') as file:
 		for pv in pvs:
 			file.write("---\n")
 			yaml.dump(pv, file, default_flow_style=False)
