@@ -21,7 +21,10 @@ spec:
       terminationGracePeriodSeconds: 1800
       containers:
       - name: jmx-config
-        mountPath: /etc/cassandra
+        image: busybox  # Added missing image
+        volumeMounts:   # Moved mountPath here
+        - name: jmx-config
+          mountPath: /etc/cassandra
       - name: cassandra
         image: gcr.io/google-samples/cassandra:v13
         imagePullPolicy: Always
