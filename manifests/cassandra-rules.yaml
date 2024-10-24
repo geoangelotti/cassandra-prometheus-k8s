@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cassandra-rules
+  labels:
+    release: prometheus
+spec:
+  groups:
+  - name: cassandra
+    rules:
+    - alert: CassandraNodeDown
+      expr: up{job="cassandra"} == 0
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: "Cassandra node down"
+        description: "Cassandra node has been down for more than 5 minutes"
+    - alert: CassandraHighLatency
+      expr: histogram_quantile(0.95, rate(cassandra_client_request_latency_seconds_bucket[5m])) > 0.1
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "High Cassandra latency"
+        description: "95th percentile latency is higher than 100ms"
