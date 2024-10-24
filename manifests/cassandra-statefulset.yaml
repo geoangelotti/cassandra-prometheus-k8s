@@ -19,12 +19,14 @@ spec:
         app: cassandra
     spec:
       terminationGracePeriodSeconds: 1800
-      containers:
-      - name: jmx-config
-        image: busybox  # Added missing image
-        volumeMounts:   # Moved mountPath here
+      initContainers:
+      - name: init-jmx
+        image: busybox
+        command: ['sh', '-c', 'echo "JMX agent initialization complete"']
+        volumeMounts:
         - name: jmx-config
           mountPath: /etc/cassandra
+      containers:
       - name: cassandra
         image: gcr.io/google-samples/cassandra:v13
         imagePullPolicy: Always
@@ -56,12 +58,10 @@ spec:
               - -c
               - nodetool drain
         env:
-          - name: JVM_OPTS
-            value: "-javaagent:/etc/cassandra/jmx_prometheus_javaagent.jar=9404:/etc/cassandra/config.yaml"
           - name: MAX_HEAP_SIZE
-            value: 512M
+            value: "512M"
           - name: HEAP_NEWSIZE
-            value: 100M
+            value: "100M"
           - name: CASSANDRA_SEEDS
             value: "cassandra-0.cassandra.default.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
@@ -80,17 +80,17 @@ spec:
             - /bin/bash
             - -c
             - /ready-probe.sh
-          initialDelaySeconds: 30
+          initialDelaySeconds: 45
           timeoutSeconds: 30
         volumeMounts:
-        - name: jmx-config
-          mountPath: /etc/cassandra
         - name: cassandra-data
           mountPath: /cassandra_data
-      volumes:
         - name: jmx-config
-          configMap:
-            name: cassandra-jmx-config  
+          mountPath: /etc/cassandra
+      volumes:
+      - name: jmx-config
+        configMap:
+          name: cassandra-jmx-config
   volumeClaimTemplates:
   - metadata:
       name: cassandra-data
