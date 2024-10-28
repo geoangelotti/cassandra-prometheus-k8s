@@ -75,6 +75,18 @@ spec:
         volumeMounts:
         - name: cassandra-data
           mountPath: /cassandra_data
+      - name: jmx-exporter
+        image: prometheus/jmx-exporter:v0.16.1
+        ports:
+        - containerPort: 9111
+          name: jmx-exporter
+          protocol: TCP
+        env:
+        - name: JAVA_AGENT
+          value: -javaagent:/jmx-exporter/jmx_prometheus_javaagent.jar=port=9111,config.file=/config/config.yaml
+        volumeMounts:
+        - name: jmx-config
+          mountPath: /config
   volumeClaimTemplates:
   - metadata:
       name: cassandra-data
@@ -84,3 +96,27 @@ spec:
       resources:
         requests:
           storage: 1Gi
+  volumes:
+  - name: jmx-config
+    configMap:
+      name: jmx-exporter-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jmx-exporter-config
+  labels:
+    app: cassandra
+data:
+  config.yaml: |
+    startDelaySeconds: 10
+    ssl: false
+    lowercaseOutputName: true
+    rules:
+      - pattern: "org.apache.cassandra.metrics<type=(Table|ColumnFamily), name=.*>"
+        name: "cassandra_$1_$2"
+      - pattern: "org.apache.cassandra.metrics<type=ClientRequest, name=.*Latency>"
+        name: "cassandra_$1_latency"
+      # Add more rules as needed for the metrics you want to expose
+
