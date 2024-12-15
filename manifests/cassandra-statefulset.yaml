@@ -31,7 +31,7 @@ spec:
           name: cql
         resources:
           limits:
-            cpu: "500m"
+            cpu: "1000m"
             memory: 1Gi
           requests:
             cpu: "500m"
@@ -70,8 +70,8 @@ spec:
             - /bin/bash
             - -c
             - /ready-probe.sh
-          initialDelaySeconds: 30
-          timeoutSeconds: 30
+          initialDelaySeconds: 60
+          timeoutSeconds: 60
         volumeMounts:
         - name: cassandra-data
           mountPath: /cassandra_data
@@ -104,4 +104,4 @@ spec:
       storageClassName: local-storage
       resources:
         requests:
-          storage: 1Gi
+          storage: 4Gi
