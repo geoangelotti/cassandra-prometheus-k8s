@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 import yaml
 
-STORAGE_SIZE = "4Gi"
+STORAGE_SIZE = "3Gi"
+
 
 def create_pv_yaml(name, storage_size, path, node):
     pv = {
