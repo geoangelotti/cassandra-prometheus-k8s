@@ -7,7 +7,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -29,7 +29,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -51,7 +51,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -73,7 +73,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -95,7 +95,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -117,7 +117,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
@@ -139,7 +139,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -161,7 +161,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -183,7 +183,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -205,7 +205,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -227,7 +227,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -249,7 +249,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
@@ -271,7 +271,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -293,7 +293,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -315,7 +315,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -337,7 +337,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -359,7 +359,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -381,7 +381,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
@@ -403,7 +403,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -425,7 +425,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -447,7 +447,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -469,7 +469,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -491,7 +491,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -513,7 +513,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
@@ -535,7 +535,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -557,7 +557,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -579,7 +579,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -601,7 +601,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -623,7 +623,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -645,7 +645,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
@@ -667,7 +667,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/a
   nodeAffinity:
@@ -689,7 +689,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/b
   nodeAffinity:
@@ -711,7 +711,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/c
   nodeAffinity:
@@ -733,7 +733,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/d
   nodeAffinity:
@@ -755,7 +755,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/e
   nodeAffinity:
@@ -777,7 +777,7 @@ spec:
   accessModes:
   - ReadWriteOnce
   capacity:
-    storage: 3Gi
+    storage: 5Gi
   local:
     path: /mnt/data/f
   nodeAffinity:
