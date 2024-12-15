@@ -32,7 +32,7 @@ spec:
         resources:
           limits:
             cpu: "1000m"
-            memory: 1.55Gi
+            memory: 1.6Gi
           requests:
             cpu: "500m"
             memory: 1Gi
@@ -49,7 +49,7 @@ spec:
               - nodetool drain
         env:
           - name: MAX_HEAP_SIZE
-            value: 793M
+            value: 819M
           - name: HEAP_NEWSIZE
             value: 100M
           - name: CASSANDRA_SEEDS
