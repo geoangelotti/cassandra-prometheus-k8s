@@ -49,7 +49,7 @@ spec:
               - nodetool drain
         env:
           - name: MAX_HEAP_SIZE
-            value: 512M
+            value: 793M
           - name: HEAP_NEWSIZE
             value: 100M
           - name: CASSANDRA_SEEDS
