@@ -1,4 +1,5 @@
 from kubernetes import client, config
+import subprocess
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE
 from clients import Clients
 
@@ -24,6 +25,7 @@ class KubernetesEnv:
         self.delete_statefulset()
         self.delete_all_pvcs()
         self.delete_all_pvs()
+        self.run_clean_data_script()
         self.delete_hpas()
 
     def get_state(self):
@@ -79,6 +81,14 @@ class KubernetesEnv:
         print(f"Deleting StatefulSet: {self.statefulset_name}")
         apps_v1.delete_namespaced_stateful_set(
             name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
+
+    def run_clean_data_script(self):
+        try:
+            result = subprocess.run(
+                ["./clean-data.sh"], check=True, capture_output=True, text=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(f"Error running clean-data.sh: {e.stderr}")
 
 
 if __name__ == "__main__":
