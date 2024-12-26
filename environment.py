@@ -22,6 +22,8 @@ class KubernetesEnv:
 
     def reset(self):
         self.delete_hpas()
+        self.delete_all_pvcs()
+        self.delete_all_pvs()
 
     def get_state(self):
         apps_v1 = self.clients.apps_v1
@@ -44,6 +46,39 @@ class KubernetesEnv:
                 namespace=namespace,
                 body=client.V1DeleteOptions()
             )
+
+    def delete_all_pvs(self):
+        v1 = self.clients.v1
+        pvs = v1.list_persistent_volume()
+
+        for pv in pvs.items:
+            pv_name = pv.metadata.name
+            print(f"Deleting PV: {pv_name}")
+            v1.delete_persistent_volume(
+                name=pv_name, body=client.V1DeleteOptions())
+            print(f"PV {pv_name} deleted")
+
+    def delete_all_pvcs(self):
+        namespace = self.namespace
+
+        v1 = self.clients.v1
+        pvcs = v1.list_namespaced_persistent_volume_claim(namespace)
+
+        # Delete each PersistentVolumeClaim
+        for pvc in pvcs.items:
+            pvc_name = pvc.metadata.name
+            print(f"Deleting PVC: {pvc_name}")
+            v1.delete_namespaced_persistent_volume_claim(
+                name=pvc_name, namespace=namespace, body=client.V1DeleteOptions())
+            print(f"PVC {pvc_name} deleted")
+
+        def delete_all_pods_and_statefulset(self):
+            namespace = self.namespace
+
+            apps_v1 = self.clients.apps_v1
+            print(f"Deleting StatefulSet: {self.statefulset_name}")
+            apps_v1.delete_namespaced_stateful_set(
+                name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
 
 
 if __name__ == "__main__":
