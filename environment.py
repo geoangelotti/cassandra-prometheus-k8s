@@ -32,6 +32,7 @@ class KubernetesEnv:
         self.run_clean_data_script()
         self.apply_manifests()
         self.delete_hpas()
+        self.run_cassandra_statements()
 
     def get_state(self):
         apps_v1 = self.clients.apps_v1
@@ -103,7 +104,7 @@ class KubernetesEnv:
         except subprocess.CalledProcessError as e:
             logger.error(f"Error applying manifests: {e.stderr}")
 
-    def run_cassandra_queries(self):
+    def run_cassandra_statements(self):
         cluster = Cluster(['localhost'], port=9042)
         session = cluster.connect()
 
