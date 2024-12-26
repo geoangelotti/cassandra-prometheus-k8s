@@ -26,6 +26,7 @@ class KubernetesEnv:
         self.delete_all_pvcs()
         self.delete_all_pvs()
         self.run_clean_data_script()
+        self.apply_manifests()
         self.delete_hpas()
 
     def get_state(self):
@@ -89,6 +90,14 @@ class KubernetesEnv:
             print(result.stdout)
         except subprocess.CalledProcessError as e:
             print(f"Error running clean-data.sh: {e.stderr}")
+
+    def apply_manifests(self):
+        try:
+            result = subprocess.run(
+                ["kubectl", "apply", "-f", "manifests/"], check=True, capture_output=True, text=True)
+            print(result.stdout)
+        except subprocess.CalledProcessError as e:
+            print(f"Error applying manifests: {e.stderr}")
 
 
 if __name__ == "__main__":
