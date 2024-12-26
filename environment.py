@@ -17,8 +17,8 @@ class KubernetesEnv:
 
         self.statefulset_name = CASSANDRA_STATEFULSET_NAME
         self.namespace = NAMESPACE
-        self.state = self.get_state()
         self.clients = clients
+        self.state = self.get_state()
 
     def reset(self):
         pass
