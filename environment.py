@@ -22,6 +22,7 @@ class KubernetesEnv:
 
     def reset(self):
         self.delete_hpas()
+        self.delete_statefulset()
         self.delete_all_pvcs()
         self.delete_all_pvs()
 
@@ -72,13 +73,12 @@ class KubernetesEnv:
                 name=pvc_name, namespace=namespace, body=client.V1DeleteOptions())
             print(f"PVC {pvc_name} deleted")
 
-        def delete_all_pods_and_statefulset(self):
-            namespace = self.namespace
-
-            apps_v1 = self.clients.apps_v1
-            print(f"Deleting StatefulSet: {self.statefulset_name}")
-            apps_v1.delete_namespaced_stateful_set(
-                name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
+    def delete_statefulset(self):
+        namespace = self.namespace
+        apps_v1 = self.clients.apps_v1
+        print(f"Deleting StatefulSet: {self.statefulset_name}")
+        apps_v1.delete_namespaced_stateful_set(
+            name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
 
 
 if __name__ == "__main__":
