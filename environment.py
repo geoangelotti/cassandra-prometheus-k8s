@@ -102,4 +102,4 @@ class KubernetesEnv:
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
-    environment.delete_hpas()
+    environment.reset()
