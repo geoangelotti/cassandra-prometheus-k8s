@@ -2,6 +2,7 @@ from kubernetes import client, config
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 import subprocess
+import time
 import logging
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, CREATE_KEYSPACE, CREATE_TABLE, KEYSPACE
 from clients import Clients
@@ -32,6 +33,8 @@ class KubernetesEnv:
         self.run_clean_data_script()
         self.apply_manifests()
         self.delete_hpas()
+        logger.info("Sleeping for 5 minutes")
+        time.sleep(5*60)
         self.run_cassandra_statements()
 
     def get_state(self):
