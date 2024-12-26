@@ -35,7 +35,7 @@ class KubernetesEnv:
         self.delete_hpas()
         logger.info("Sleeping for 5 minutes")
         time.sleep(5*60)
-        self.run_cassandra_statements()
+        # self.run_cassandra_statements()
 
     def get_state(self):
         apps_v1 = self.clients.apps_v1
@@ -129,4 +129,5 @@ class KubernetesEnv:
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
-    environment.reset()
+    # environment.reset()
+    environment.run_cassandra_statements()
