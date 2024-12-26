@@ -21,10 +21,10 @@ class KubernetesEnv:
         self.state = self.get_state()
 
     def reset(self):
-        self.delete_hpas()
         self.delete_statefulset()
         self.delete_all_pvcs()
         self.delete_all_pvs()
+        self.delete_hpas()
 
     def get_state(self):
         apps_v1 = self.clients.apps_v1
