@@ -6,14 +6,11 @@ from clients import Clients
 
 class KubernetesEnv:
     def __init__(self):
-        # Load Kubernetes configuration
         config.load_kube_config()
 
-        # Create API clients
         v1 = client.CoreV1Api()
         apps_v1 = client.AppsV1Api()
         autoscaling_v2 = client.AutoscalingV2Api()
-
         clients = Clients(v1, apps_v1, autoscaling_v2)
 
         self.statefulset_name = CASSANDRA_STATEFULSET_NAME
@@ -33,11 +30,9 @@ class KubernetesEnv:
         apps_v1 = self.clients.apps_v1
         statefulset = apps_v1.read_namespaced_stateful_set(
             self.statefulset_name, self.namespace)
-        print(statefulset)
 
     def delete_hpas(self):
         namespace = self.namespace
-
         autoscaling_v2 = self.clients.autoscaling_v2
         hpas = autoscaling_v2.list_namespaced_horizontal_pod_autoscaler(
             namespace)
@@ -68,7 +63,6 @@ class KubernetesEnv:
         v1 = self.clients.v1
         pvcs = v1.list_namespaced_persistent_volume_claim(namespace)
 
-        # Delete each PersistentVolumeClaim
         for pvc in pvcs.items:
             pvc_name = pvc.metadata.name
             print(f"Deleting PVC: {pvc_name}")
@@ -79,9 +73,11 @@ class KubernetesEnv:
     def delete_statefulset(self):
         namespace = self.namespace
         apps_v1 = self.clients.apps_v1
+
         print(f"Deleting StatefulSet: {self.statefulset_name}")
         apps_v1.delete_namespaced_stateful_set(
             name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
+        print(f"StatefulSet {self.statefulset_name} deleted")
 
     def run_clean_data_script(self):
         try:
