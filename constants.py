@@ -1,0 +1,3 @@
+CASSANDRA_STATEFULSET_NAME = "cassandra"
+
+NAMESPACE = "default"

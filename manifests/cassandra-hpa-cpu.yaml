@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cassandra-hpa
+  name: cassandra-hpa-cpu
   namespace: default
 spec:
   scaleTargetRef:
@@ -19,7 +19,7 @@ spec:
         averageUtilization: 95
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 240
+      stabilizationWindowSeconds: 120
       policies:
       - type: Pods
         value: 2

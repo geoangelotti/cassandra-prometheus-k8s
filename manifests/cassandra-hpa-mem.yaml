@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cassandra-hpa
+  name: cassandra-hpa-mem
   namespace: default
 spec:
   scaleTargetRef:
