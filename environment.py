@@ -21,7 +21,7 @@ class KubernetesEnv:
         self.state = self.get_state()
 
     def reset(self):
-        pass
+        self.delete_hpas()
 
     def get_state(self):
         apps_v1 = self.clients.apps_v1
@@ -29,7 +29,23 @@ class KubernetesEnv:
             self.statefulset_name, self.namespace)
         print(statefulset)
 
+    def delete_hpas(self):
+        namespace = self.namespace
+
+        autoscaling_v2 = self.clients.autoscaling_v2
+        hpas = autoscaling_v2.list_namespaced_horizontal_pod_autoscaler(
+            namespace)
+
+        for hpa in hpas.items:
+            hpa_name = hpa.metadata.name
+            print(f"Deleting HPA: {hpa_name}")
+            autoscaling_v2.delete_namespaced_horizontal_pod_autoscaler(
+                name=hpa_name,
+                namespace=namespace,
+                body=client.V1DeleteOptions()
+            )
+
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
-    print(environment)
+    environment.delete_hpas()
