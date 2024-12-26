@@ -96,6 +96,7 @@ class KubernetesEnv:
             result = subprocess.run(
                 ["./clean-data.sh"], check=True, capture_output=True, text=True)
             logger.debug(result.stdout)
+            logger.info("Data cleaned")
         except subprocess.CalledProcessError as e:
             logger.error(f"Error running clean-data.sh: {e.stderr}")
 
