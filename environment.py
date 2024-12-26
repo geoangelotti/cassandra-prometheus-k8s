@@ -1,7 +1,9 @@
 from kubernetes import client, config
+from cassandra.cluster import Cluster
+from cassandra.auth import PlainTextAuthProvider
 import subprocess
 import logging
-from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE
+from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, CREATE_KEYSPACE, CREATE_TABLE, KEYSPACE
 from clients import Clients
 
 logging.basicConfig(level=logging.INFO,
@@ -100,6 +102,24 @@ class KubernetesEnv:
             logger.debug(result.stdout)
         except subprocess.CalledProcessError as e:
             logger.error(f"Error applying manifests: {e.stderr}")
+
+    def run_cassandra_queries(self):
+        cluster = Cluster(['localhost'], port=9042)
+        session = cluster.connect()
+
+        try:
+            session.execute(CREATE_KEYSPACE)
+            logger.info("Keyspace created")
+
+            session.set_keyspace(KEYSPACE)
+            logger.info("Using keyspace my_keyspace")
+
+            session.execute(CREATE_TABLE)
+            logger.info("Table created")
+        except Exception as e:
+            logger.error(f"Error running Cassandra queries: {e}")
+        finally:
+            cluster.shutdown()
 
 
 if __name__ == "__main__":
