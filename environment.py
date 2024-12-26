@@ -1,7 +1,12 @@
 from kubernetes import client, config
 import subprocess
+import logging
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE
 from clients import Clients
+
+logging.basicConfig(level=logging.INFO,
+                    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 class KubernetesEnv:
@@ -39,12 +44,13 @@ class KubernetesEnv:
 
         for hpa in hpas.items:
             hpa_name = hpa.metadata.name
-            print(f"Deleting HPA: {hpa_name}")
+            logger.info(f"Deleting HPA: {hpa_name}")
             autoscaling_v2.delete_namespaced_horizontal_pod_autoscaler(
                 name=hpa_name,
                 namespace=namespace,
                 body=client.V1DeleteOptions()
             )
+            logger.info(f"HPA {hpa_name} deleted")
 
     def delete_all_pvs(self):
         v1 = self.clients.v1
@@ -52,10 +58,10 @@ class KubernetesEnv:
 
         for pv in pvs.items:
             pv_name = pv.metadata.name
-            print(f"Deleting PV: {pv_name}")
+            logger.info(f"Deleting PV: {pv_name}")
             v1.delete_persistent_volume(
                 name=pv_name, body=client.V1DeleteOptions())
-            print(f"PV {pv_name} deleted")
+            logger.info(f"PV {pv_name} deleted")
 
     def delete_all_pvcs(self):
         namespace = self.namespace
@@ -65,35 +71,35 @@ class KubernetesEnv:
 
         for pvc in pvcs.items:
             pvc_name = pvc.metadata.name
-            print(f"Deleting PVC: {pvc_name}")
+            logger.info(f"Deleting PVC: {pvc_name}")
             v1.delete_namespaced_persistent_volume_claim(
                 name=pvc_name, namespace=namespace, body=client.V1DeleteOptions())
-            print(f"PVC {pvc_name} deleted")
+            logger.info(f"PVC {pvc_name} deleted")
 
     def delete_statefulset(self):
         namespace = self.namespace
         apps_v1 = self.clients.apps_v1
 
-        print(f"Deleting StatefulSet: {self.statefulset_name}")
+        logger.info(f"Deleting StatefulSet: {self.statefulset_name}")
         apps_v1.delete_namespaced_stateful_set(
             name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
-        print(f"StatefulSet {self.statefulset_name} deleted")
+        logger.info(f"StatefulSet {self.statefulset_name} deleted")
 
     def run_clean_data_script(self):
         try:
             result = subprocess.run(
                 ["./clean-data.sh"], check=True, capture_output=True, text=True)
-            print(result.stdout)
+            logger.debug(result.stdout)
         except subprocess.CalledProcessError as e:
-            print(f"Error running clean-data.sh: {e.stderr}")
+            logger.error(f"Error running clean-data.sh: {e.stderr}")
 
     def apply_manifests(self):
         try:
             result = subprocess.run(
                 ["kubectl", "apply", "-f", "manifests/"], check=True, capture_output=True, text=True)
-            print(result.stdout)
+            logger.debug(result.stdout)
         except subprocess.CalledProcessError as e:
-            print(f"Error applying manifests: {e.stderr}")
+            logger.error(f"Error applying manifests: {e.stderr}")
 
 
 if __name__ == "__main__":
