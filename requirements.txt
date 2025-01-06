@@ -1,3 +1,4 @@
+autopep8==2.3.1
 cachetools==5.5.0
 cassandra-driver==3.29.2
 certifi==2024.12.14
@@ -12,6 +13,7 @@ oauthlib==3.2.2
 pure-sasl==0.6.2
 pyasn1==0.6.1
 pyasn1_modules==0.4.1
+pycodestyle==2.12.1
 python-dateutil==2.9.0.post0
 PyYAML==6.0.2
 requests==2.32.3
