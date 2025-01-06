@@ -67,10 +67,10 @@ class ResetManager:
         except subprocess.CalledProcessError as e:
             logger.error(f"Error running clean-data.sh: {e.stderr}")
 
-    def apply_manifests(self):
+    def apply_manifests(self, path: str = "manifests/"):
         try:
             result = subprocess.run(
-                ["kubectl", "apply", "-f", "manifests/"], check=True, capture_output=True, text=True)
+                ["kubectl", "apply", "-f", path], check=True, capture_output=True, text=True)
             logger.debug(result.stdout)
         except subprocess.CalledProcessError as e:
             logger.error(f"Error applying manifests: {e.stderr}")
