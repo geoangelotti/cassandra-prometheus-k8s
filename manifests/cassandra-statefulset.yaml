@@ -76,7 +76,7 @@ spec:
         - name: cassandra-data
           mountPath: /cassandra_data
       - name: cassandra-exporter
-        image: instaclustr/cassandra_exporter:latest
+        image: bitnami/cassandra_exporter:latest
         ports:
         - containerPort: 8080
           name: metrics
