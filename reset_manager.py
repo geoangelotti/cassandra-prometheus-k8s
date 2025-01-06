@@ -71,7 +71,7 @@ class ResetManager:
         try:
             result = subprocess.run(
                 ["kubectl", "apply", "-f", path], check=True, capture_output=True, text=True)
-            logger.debug(result.stdout)
+            logger.info(result.stdout)
         except subprocess.CalledProcessError as e:
             logger.error(f"Error applying manifests: {e.stderr}")
 
