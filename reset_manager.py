@@ -26,7 +26,6 @@ class ResetManager:
         self.delete_hpas()
         logger.info("Sleeping for 5 minutes")
         time.sleep(5 * 60)
-        asyncio.run(self.port_forward_cassandra_loadbalancer())
         self.prepare_cassandra_statements()
 
     def delete_statefulset(self):
