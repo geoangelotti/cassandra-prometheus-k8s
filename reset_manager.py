@@ -1,3 +1,4 @@
+import asyncio
 import time
 import logging
 import subprocess
@@ -25,6 +26,7 @@ class ResetManager:
         self.delete_hpas()
         logger.info("Sleeping for 5 minutes")
         time.sleep(5 * 60)
+        asyncio.run(self.port_forward_cassandra_loadbalancer())
         self.prepare_cassandra_statements()
 
     def delete_statefulset(self):
@@ -104,3 +106,28 @@ class ResetManager:
             logger.error(f"Error running Cassandra queries: {e}")
         finally:
             cluster.shutdown()
+
+    async def port_forward_cassandra_loadbalancer(namespace='default', service_name='cassandra-loadbalancer', local_port=9042, remote_port=9042):
+        try:
+            v1 = client.CoreV1Api()
+            service = v1.read_namespaced_service(
+                name=service_name, namespace=namespace)
+            logger.info(
+                f"Service {service_name} found in namespace {namespace}")
+            logger.info(f"Starting port-forward for {service_name} service")
+            process = await asyncio.create_subprocess_exec(
+                "kubectl", "port-forward", f"service/{service_name}", f"{local_port}:{remote_port}",
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE
+            )
+            stdout, stderr = await process.communicate()
+            if process.returncode == 0:
+                logger.info(
+                    f"Port-forwarding started successfully: {stdout.decode()}")
+            else:
+                logger.error(f"Port-forwarding failed: {stderr.decode()}")
+        except client.exceptions.ApiException as e:
+            logger.error(
+                f"Exception when calling CoreV1Api->read_namespaced_service: {e}")
+        except Exception as e:
+            logger.error(f"An unexpected error occurred: {e}")
