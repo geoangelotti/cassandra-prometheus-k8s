@@ -9,7 +9,7 @@ spec:
     kind: StatefulSet
     name: cassandra
   minReplicas: 3
-  maxReplicas: 10
+  maxReplicas: 12
   metrics:
   - type: Resource
     resource:
