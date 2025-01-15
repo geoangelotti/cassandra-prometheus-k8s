@@ -55,11 +55,11 @@ spec:
           - name: CASSANDRA_SEEDS
             value: "cassandra-0.cassandra.default.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
-            value: "K8Demo"
+            value: "thesis"
           - name: CASSANDRA_DC
-            value: "DC1-K8Demo"
+            value: "ntua"
           - name: CASSANDRA_RACK
-            value: "Rack1-K8Demo"
+            value: "rack1"
           - name: POD_IP
             valueFrom:
               fieldRef:
