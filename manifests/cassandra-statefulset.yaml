@@ -31,8 +31,8 @@ spec:
           name: cql
         resources:
           limits:
-            cpu: "1333m"
-            memory: 2333Mi
+            cpu: "2000m"
+            memory: 3700Mi
           requests:
             cpu: "500m"
             memory: 1Gi
