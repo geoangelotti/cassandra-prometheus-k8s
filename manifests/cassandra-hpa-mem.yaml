@@ -16,7 +16,7 @@ spec:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 95
+        averageUtilization: 70
   behavior:
     scaleUp:
       stabilizationWindowSeconds: 180
