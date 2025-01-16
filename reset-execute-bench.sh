@@ -15,6 +15,7 @@ done
 
 python3 /home/ubuntu/cassandra-prometheus-k8s/environment.py
 sleep 15
+cd /home/ubuntu/ycsb/bin/ycsb
 /home/ubuntu/ycsb/bin/ycsb load cassandra-cql -p hosts=localhost -s -P workloads/workloadaConstantLoad
 sleep 3m
 
