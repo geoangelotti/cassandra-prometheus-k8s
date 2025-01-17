@@ -62,12 +62,12 @@ class ResetManager:
             logger.info(f"PV {pv_name} deleted")
 
     def run_clean_data_script(self):
-        self.try_process(["./clean-data.sh"])
+        self.try_subprocess(["./clean-data.sh"])
 
     def apply_manifests(self, path: str = "manifests/"):
-        self.try_process(["kubectl", "apply", "-f", path])
+        self.try_subprocess(["kubectl", "apply", "-f", path])
 
-    def try_process(self, command: List[str]):
+    def try_subprocess(self, command: List[str]):
         try:
             process = subprocess.Popen(
                 command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
