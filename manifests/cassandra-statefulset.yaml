@@ -6,7 +6,7 @@ metadata:
     app: cassandra
 spec:
   serviceName: cassandra
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
       app: cassandra
@@ -32,7 +32,7 @@ spec:
         resources:
           limits:
             cpu: "2000m"
-            memory: 3500Mi
+            memory: 3700Mi
           requests:
             cpu: "500m"
             memory: 1Gi
@@ -55,11 +55,11 @@ spec:
           - name: CASSANDRA_SEEDS
             value: "cassandra-0.cassandra.default.svc.cluster.local"
           - name: CASSANDRA_CLUSTER_NAME
-            value: "K8Demo"
+            value: "thesis"
           - name: CASSANDRA_DC
-            value: "DC1-K8Demo"
+            value: "ntua"
           - name: CASSANDRA_RACK
-            value: "Rack1-K8Demo"
+            value: "rack1"
           - name: POD_IP
             valueFrom:
               fieldRef:
@@ -76,7 +76,7 @@ spec:
         - name: cassandra-data
           mountPath: /cassandra_data
       - name: cassandra-exporter
-        image: criteord/cassandra_exporter:latest
+        image: bitnami/cassandra-exporter:latest
         ports:
         - containerPort: 8080
           name: metrics
