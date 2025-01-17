@@ -70,7 +70,7 @@ class ResetManager:
     def try_process(self, command: List[str]):
         try:
             process = subprocess.Popen(
-                ["./clean-data.sh"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+                command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
             )
             for line in process.stdout:
                 logger.info(line.strip())
