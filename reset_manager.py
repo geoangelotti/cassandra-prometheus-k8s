@@ -2,6 +2,7 @@ import asyncio
 import time
 import logging
 import subprocess
+from typing import List
 from kubernetes import client
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, KEYSPACE, CREATE_TABLE, CREATE_KEYSPACE
 from cassandra.cluster import Cluster
@@ -61,20 +62,26 @@ class ResetManager:
             logger.info(f"PV {pv_name} deleted")
 
     def run_clean_data_script(self):
-        try:
-            result = subprocess.run(
-                ["./clean-data.sh"], check=True, capture_output=True, text=True)
-            logger.debug(result.stdout)
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Error running clean-data.sh: {e.stderr}")
+        self.try_process(["./clean-data.sh"])
 
     def apply_manifests(self, path: str = "manifests/"):
+        self.try_process(["kubectl", "apply", "-f", path])
+
+    def try_process(self, command: List[str]):
         try:
-            result = subprocess.run(
-                ["kubectl", "apply", "-f", path], check=True, capture_output=True, text=True)
-            logger.info(result.stdout)
+            process = subprocess.Popen(
+                ["./clean-data.sh"], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
+            )
+            for line in process.stdout:
+                logger.info(line.strip())
+            for line in process.stderr:
+                logger.error(line.strip())
+            process.wait()
+            if process.returncode != 0:
+                raise subprocess.CalledProcessError(
+                    process.returncode, process.args)
         except subprocess.CalledProcessError as e:
-            logger.error(f"Error applying manifests: {e.stderr}")
+            logger.error(f"Error running {command}: {e}")
 
     def delete_hpas(self):
         namespace = self.namespace
