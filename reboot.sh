@@ -6,8 +6,8 @@ for node in "${nodes[@]}"
 do
   echo $node start
   number="${node//[^0-9]/}"
-  ssh ubuntu@$node "sudo apt-get update"
-  ssh ubuntu@$node "sudo apt-get upgrade -y"
+  ssh ubuntu@$node "sudo apt-get -qq update"
+  ssh ubuntu@$node "sudo apt-get -qq upgrade -y"
   ssh ubuntu@$node "sudo reboot"
   echo $node done
 done
