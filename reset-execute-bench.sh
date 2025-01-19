@@ -46,5 +46,5 @@ case $HPA in
 esac
 
 date "+%Y-%m-%d %H:%M:%S"
-/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=localhost -s -P workloads/workloadaSineLoad -p period=300000 -p recordcount=5000 -p operationcount=800000
+/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=localhost -s -P workloads/workloadaSineLoad -p period=300000 -p recordcount=5000 -p operationcount=400000
 date "+%Y-%m-%d %H:%M:%S"
