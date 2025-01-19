@@ -26,15 +26,3 @@ spec:
     name: metrics
   selector:
     app: cassandra
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: cassandra-loadbalancer
-spec:
-  type: LoadBalancer
-  selector:
-    app: cassandra
-  ports:
-  - port: 9042
-    targetPort: 9042
