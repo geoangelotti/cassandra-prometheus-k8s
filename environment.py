@@ -26,8 +26,6 @@ class KubernetesEnv:
         self.reset_manager = ResetManager(
             self.clients, self.statefulset_name, self.namespace)
         self.prometheus_client = PrometheusClient("http://localhost:9090")
-        res = self.prometheus_client.query_all_from_directory()
-        print(res)
 
     def reset(self):
         self.reset_manager.reset()
