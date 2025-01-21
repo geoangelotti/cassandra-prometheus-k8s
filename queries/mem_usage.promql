@@ -1,0 +1,1 @@
+sum(container_memory_working_set_bytes{namespace="default", container="cassandra"} * on(namespace,pod) group_left(workload) namespace_workload_pod:kube_pod_owner:relabel{namespace="default", workload="cassandra"})
