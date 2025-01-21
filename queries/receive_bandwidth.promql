@@ -1,0 +1,1 @@
+sum(irate(container_network_receive_bytes_total{job="kubelet", metrics_path="/metrics/cadvisor", namespace="default", pod=~"cassandra.*"}[1m]))
