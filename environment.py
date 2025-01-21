@@ -4,6 +4,7 @@ import logging
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, CREATE_KEYSPACE, CREATE_TABLE, KEYSPACE
 from clients import Clients
 from reset_manager import ResetManager
+from prometheus import PrometheusClient
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -24,6 +25,9 @@ class KubernetesEnv:
         self.clients = clients
         self.reset_manager = ResetManager(
             self.clients, self.statefulset_name, self.namespace)
+        self.prometheus_client = PrometheusClient("http://localhost:9090")
+        res = self.prometheus_client.query_all_from_directory()
+        print(res)
 
     def reset(self):
         self.reset_manager.reset()
