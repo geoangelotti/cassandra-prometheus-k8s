@@ -25,7 +25,6 @@ class ResetManager:
         self.run_clean_data_script()
         self.apply_manifests()
         self.delete_hpas()
-        logger.info("Sleeping for 5 minutes")
         self.is_cluster_ready()
         self.prepare_cassandra_statements()
 
