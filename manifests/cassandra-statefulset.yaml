@@ -46,7 +46,7 @@ spec:
               command: 
               - /bin/sh
               - -c
-              - nodetool decommission || nodetool drain
+              - nodetool drain
         env:
           - name: MAX_HEAP_SIZE
             value: 2048M
@@ -64,8 +64,6 @@ spec:
             valueFrom:
               fieldRef:
                 fieldPath: status.podIP
-          - name: CASSANDRA_OVERRIDE_DECOMMISSION
-            value: "true"
         readinessProbe:
           exec:
             command:
