@@ -26,7 +26,7 @@ class ResetManager:
         self.apply_manifests()
         self.delete_hpas()
         logger.info("Sleeping for 5 minutes")
-        time.sleep(5 * 60)
+        self.is_cluster_ready()
         self.prepare_cassandra_statements()
 
     def delete_statefulset(self):
@@ -112,6 +112,20 @@ class ResetManager:
             logger.error(f"Error running Cassandra queries: {e}")
         finally:
             cluster.shutdown()
+
+    def is_statefulset_ready(self):
+        statefulset = self.clients.apps_v1.read_namespaced_stateful_set(
+            name=self.statefulset_name, namespace=self.namespace)
+        ready_replicas = statefulset.status.ready_replicas or 0
+        total_replicas = statefulset.status.replicas or 0
+        return ready_replicas == total_replicas
+
+    def is_cluster_ready(self):
+        time.sleep(20)
+        while not self.is_statefulset_ready():
+            logger.info("StatefulSet is not ready yet")
+            time.sleep(20)
+        logger.info("StatefulSet is ready")
 
     async def port_forward_cassandra_loadbalancer(namespace='default', service_name='cassandra-loadbalancer', local_port=9042, remote_port=9042):
         try:
