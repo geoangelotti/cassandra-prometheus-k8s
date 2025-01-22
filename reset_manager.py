@@ -29,24 +29,22 @@ class ResetManager:
         self.prepare_cassandra_statements()
 
     def delete_statefulset(self):
-        namespace = self.namespace
         apps_v1 = self.clients.apps_v1
 
         logger.info(f"Deleting StatefulSet: {self.statefulset_name}")
         apps_v1.delete_namespaced_stateful_set(
-            name=self.statefulset_name, namespace=namespace, body=client.V1DeleteOptions())
+            name=self.statefulset_name, namespace=self.namespace, body=client.V1DeleteOptions())
         logger.info(f"StatefulSet {self.statefulset_name} deleted")
 
     def delete_all_pvcs(self):
-        namespace = self.namespace
         v1 = self.clients.v1
-        pvcs = v1.list_namespaced_persistent_volume_claim(namespace)
 
+        pvcs = v1.list_namespaced_persistent_volume_claim(self.namespace)
         for pvc in pvcs.items:
             pvc_name = pvc.metadata.name
             logger.info(f"Deleting PVC: {pvc_name}")
             v1.delete_namespaced_persistent_volume_claim(
-                name=pvc_name, namespace=namespace, body=client.V1DeleteOptions())
+                name=pvc_name, namespace=self.namespace, body=client.V1DeleteOptions())
             logger.info(f"PVC {pvc_name} deleted")
 
     def delete_all_pvs(self):
@@ -83,16 +81,15 @@ class ResetManager:
             logger.error(f"Error running {command}: {e}")
 
     def delete_hpas(self):
-        namespace = self.namespace
         autoscaling_v2 = self.clients.autoscaling_v2
         hpas = autoscaling_v2.list_namespaced_horizontal_pod_autoscaler(
-            namespace)
+            self.namespace)
 
         for hpa in hpas.items:
             hpa_name = hpa.metadata.name
             logger.info(f"Deleting HPA: {hpa_name}")
             autoscaling_v2.delete_namespaced_horizontal_pod_autoscaler(
-                name=hpa_name, namespace=namespace, body=client.V1DeleteOptions())
+                name=hpa_name, namespace=self.namespace, body=client.V1DeleteOptions())
 
     def prepare_cassandra_statements(self):
         cluster = Cluster(['localhost'], port=9042)
