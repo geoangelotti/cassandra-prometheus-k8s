@@ -43,7 +43,7 @@ def create_pv_yaml(name, storage_size, path, node):
 
 def main():
     pvs = []
-    for i in range(6):
+    for i in range(1, 6):
         for j in range(3):
             ch = chr(j+97)
             name = f"local-pv-{i+1}-{ch}"
