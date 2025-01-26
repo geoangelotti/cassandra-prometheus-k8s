@@ -35,6 +35,11 @@ case $HPA in
         # Commands for both
         kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa.yaml
         ;;
+    "cpu-slow")
+        echo "Configuring CPI-based slow HPA"
+        # CPU slow HPA 
+        kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-slow.yaml
+        ;;
     "")
         echo "No HPA type specified. Use --hpa with cpu, mem, or both"
 		echo "Starting dry"
@@ -46,5 +51,5 @@ case $HPA in
 esac
 
 date "+%Y-%m-%d %H:%M:%S"
-/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=localhost -s -P workloads/workloadaSine -p period=300000
+/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=localhost -s -P workloads/workloadaConstant -p operationcount=35000000 -threads 500
 date "+%Y-%m-%d %H:%M:%S"
