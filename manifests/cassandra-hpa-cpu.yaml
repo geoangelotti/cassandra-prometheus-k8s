@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cassandra-hpa-cpu
+  name: cassandra-hpa-cpu-slow
   namespace: default
 spec:
   scaleTargetRef:
@@ -9,7 +9,7 @@ spec:
     kind: StatefulSet
     name: cassandra
   minReplicas: 3
-  maxReplicas: 12
+  maxReplicas: 15
   metrics:
   - type: Resource
     resource:
@@ -19,14 +19,14 @@ spec:
         averageUtilization: 70
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 180
+      stabilizationWindowSeconds: 300
       policies:
       - type: Pods
-        value: 2
-        periodSeconds: 60
+        value: 1
+        periodSeconds: 180
     scaleDown:
       stabilizationWindowSeconds: 300
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 60
+        periodSeconds: 180
