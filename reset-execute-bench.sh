@@ -35,11 +35,6 @@ case $HPA in
         # Commands for both
         kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa.yaml
         ;;
-    "cpu-slow")
-        echo "Configuring CPI-based slow HPA"
-        # CPU slow HPA 
-        kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-slow.yaml
-        ;;
     "")
         echo "No HPA type specified. Use --hpa with cpu, mem, or both"
 		echo "Starting dry"
