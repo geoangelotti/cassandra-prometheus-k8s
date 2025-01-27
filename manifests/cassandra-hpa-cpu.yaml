@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cassandra-hpa-cpu-slow
+  name: cassandra-hpa-cpu
   namespace: default
 spec:
   scaleTargetRef:
