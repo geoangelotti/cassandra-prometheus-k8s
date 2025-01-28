@@ -19,11 +19,14 @@ class ResetManager:
         self.namespace = namespace
 
     def reset(self):
+        self.delete_()
+        self.prepare()
+
+    def delete(self):
         self.delete_statefulset()
         self.delete_all_pvcs()
         self.delete_all_pvs()
         self.run_clean_data_script()
-        self.prepare()
 
     def prepare(self):
         self.apply_manifests()
