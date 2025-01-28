@@ -23,6 +23,9 @@ class ResetManager:
         self.delete_all_pvcs()
         self.delete_all_pvs()
         self.run_clean_data_script()
+        self.prepare()
+
+    def prepare(self):
         self.apply_manifests()
         self.delete_hpas()
         self.is_cluster_ready()

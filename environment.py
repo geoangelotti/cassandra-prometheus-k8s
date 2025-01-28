@@ -30,6 +30,9 @@ class KubernetesEnv:
     def reset(self):
         self.reset_manager.reset()
 
+    def prepare(self):
+        self.reset_manager.prepare()
+
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
