@@ -19,7 +19,7 @@ class ResetManager:
         self.namespace = namespace
 
     def reset(self):
-        self.delete_()
+        self.delete()
         self.prepare()
 
     def delete(self):
