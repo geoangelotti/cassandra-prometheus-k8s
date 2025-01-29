@@ -16,3 +16,4 @@ sleep 30
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaConstant -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} | tee ./${CURRENT_TIME}/run.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ./${CURRENT_TIME}/after_run_status.log
 kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ./${CURRENT_TIME}/cassandra_pods.log
