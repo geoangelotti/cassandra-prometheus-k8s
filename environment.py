@@ -1,6 +1,6 @@
 from kubernetes import client, config
-
 import logging
+import time
 from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, CREATE_KEYSPACE, CREATE_TABLE, KEYSPACE
 from clients import Clients
 from reset_manager import ResetManager
@@ -36,7 +36,16 @@ class KubernetesEnv:
     def delete(self):
         self.reset_manager.delete()
 
+    def monitor_failed_pvs(self):
+        while True:
+            pvs = self.clients.v1.list_persistent_volume()
+            failed_pvs = [
+                pv for pv in pvs.items if pv.status.phase == 'Failed']
+            if failed_pvs:
+                logger.error(f"Failed PVs: {failed_pvs}")
+            time.sleep(30)
+
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
-    environment.reset()
+    environment.monitor_failed_pvs()
