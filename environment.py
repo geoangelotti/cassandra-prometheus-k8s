@@ -50,8 +50,27 @@ class KubernetesEnv:
         for pv in pvs:
             name = pv.metadata.name
             path = pv.spec.local.path
-            logger.error(f"Deleting PV: {name}, path: {path}")
-            logger.error(f"PV: {pv}")
+            node = pv.spec.node_affinity.required.node_selector_terms[
+                0].match_expressions[0].values[0]
+            self.delete_pv(name)
+            self.clean_mnt_directory(node, path)
+            logger.info(f"Persistent Volume {name} cleaned successfully.")
+        if pvs:
+            self.reset_manager.apply_manifests(
+                "manifests/local-pv-massive.yaml")
+
+    def clean_mnt_directory(self, node: str, path: str):
+        command = f"rm -rf {path}/*"
+        ssh_command = f"ssh ubuntu@{node} '{command}'"
+        self.reset_manager.run_command(ssh_command)
+
+    def delete_pv(self, pv_name: str):
+        try:
+            self.clients.v1.delete_persistent_volume(name=pv_name)
+            logger.info(f"Persistent Volume {pv_name} deleted successfully.")
+        except client.exceptions.ApiException as e:
+            logger.error(
+                f"Exception when deleting Persistent Volume {pv_name}: {e}")
 
 
 if __name__ == "__main__":
