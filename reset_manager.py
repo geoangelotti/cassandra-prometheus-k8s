@@ -38,10 +38,19 @@ class ResetManager:
 
     def delete_statefulset(self):
         apps_v1 = self.clients.apps_v1
+        v1 = self.clients.v1
 
         logger.info(f"Deleting StatefulSet: {self.statefulset_name}")
         apps_v1.delete_namespaced_stateful_set(
             name=self.statefulset_name, namespace=self.namespace, body=client.V1DeleteOptions())
+        while True:
+            pods = v1.list_namespaced_pod(
+                namespace=self.namespace, label_selector=f"app={self.statefulset_name}")
+            if not pods.items:
+                logger.info("All pods deleted")
+                break
+            logger.info("Waiting for pods to be deleted...")
+            time.sleep(20)
         logger.info(f"StatefulSet {self.statefulset_name} deleted")
 
     def delete_all_pvcs(self):
