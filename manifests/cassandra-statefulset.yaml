@@ -6,7 +6,7 @@ metadata:
     app: cassandra
 spec:
   persistentVolumeClaimRetentionPolicy:
-    delete: "Retain"
+    whenDeleted: "Retain"
     whenScaled: "Delete"
   serviceName: cassandra
   replicas: 3
