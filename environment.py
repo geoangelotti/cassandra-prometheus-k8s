@@ -47,9 +47,9 @@ class KubernetesEnv:
 
     def clean_pvs(self, pvs: List[Any]):
         for pv in pvs:
-            logger.error(f"PV: {pv}")
             name = pv.metadata.name
             logger.debug(f"Deleting PV: {name}")
+            logger.error(f"PV: {pv}")
 
 
 if __name__ == "__main__":
