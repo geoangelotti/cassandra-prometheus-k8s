@@ -5,6 +5,7 @@ import subprocess
 from typing import List
 from kubernetes import client
 from cassandra_manager import CassandraManager
+from constants import TABLE
 
 
 logger = logging.getLogger(__name__)
@@ -23,6 +24,7 @@ class ResetManager:
         self.prepare()
 
     def delete(self):
+        self.cassandra_manager.truncate_table(TABLE)
         self.delete_statefulset()
         self.delete_all_pvcs()
         self.delete_all_pvs()

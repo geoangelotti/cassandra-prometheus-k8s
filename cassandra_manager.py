@@ -34,3 +34,21 @@ class CassandraManager:
             logger.error(f"Error running Cassandra queries: {e}")
         finally:
             cluster.shutdown()
+
+    def truncate_table(self, table_name: str):
+        v1 = self.clients.v1
+        pod_name = "cassandra-0"
+        pod = v1.read_namespaced_pod(name=pod_name, namespace=self.namespace)
+        pod_ip = pod.status.pod_ip
+
+        cluster = Cluster([pod_ip], port=9042)
+        session = cluster.connect()
+
+        try:
+            session.set_keyspace(KEYSPACE)
+            session.execute(f"TRUNCATE {table_name}")
+            logger.info(f"Table {table_name} truncated")
+        except Exception as e:
+            logger.error(f"Error truncating table {table_name}: {e}")
+        finally:
+            cluster.shutdown()

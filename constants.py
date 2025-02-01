@@ -4,6 +4,7 @@ NAMESPACE = "default"
 
 CREATE_KEYSPACE = "create keyspace ycsb WITH REPLICATION = {'class' : 'SimpleStrategy', 'replication_factor': 2};"
 KEYSPACE = "ycsb"
+TABLE = "usertable"
 CREATE_TABLE = """create table usertable (
 y_id varchar primary key,
 field0 varchar,
