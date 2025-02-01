@@ -5,6 +5,7 @@ from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, CREATE_KEYSPACE, CR
 from clients import Clients
 from reset_manager import ResetManager
 from prometheus import PrometheusClient
+from typing import List, Any
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -41,9 +42,14 @@ class KubernetesEnv:
             pvs = self.clients.v1.list_persistent_volume()
             failed_pvs = [
                 pv for pv in pvs.items if pv.status.phase == 'Failed']
-            if failed_pvs:
-                logger.error(f"Failed PVs: {failed_pvs}")
+            self.clean_pvs(failed_pvs)
             time.sleep(30)
+
+    def clean_pvs(self, pvs: List[Any]):
+        for pv in pvs:
+            logger.error(f"PV: {pv}")
+            name = pv.metadata.name
+            logger.debug(f"Deleting PV: {name}")
 
 
 if __name__ == "__main__":
