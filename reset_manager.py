@@ -4,9 +4,7 @@ import logging
 import subprocess
 from typing import List
 from kubernetes import client
-from constants import CASSANDRA_STATEFULSET_NAME, NAMESPACE, KEYSPACE, CREATE_TABLE, CREATE_KEYSPACE
-from cassandra.cluster import Cluster
-from cassandra.auth import PlainTextAuthProvider
+from cassandra_manager import CassandraManager
 
 
 logger = logging.getLogger(__name__)
@@ -17,6 +15,8 @@ class ResetManager:
         self.clients = clients
         self.statefulset_name = statefulset_name
         self.namespace = namespace
+        self.cassandra_manager = CassandraManager(
+            self.clients, self.statefulset_name, self.namespace)
 
     def reset(self):
         self.delete()
@@ -98,27 +98,7 @@ class ResetManager:
                 name=hpa_name, namespace=self.namespace, body=client.V1DeleteOptions())
 
     def prepare_cassandra_statements(self):
-        v1 = self.clients.v1
-        pod_name = "cassandra-0"
-        pod = v1.read_namespaced_pod(name=pod_name, namespace=self.namespace)
-        pod_ip = pod.status.pod_ip
-
-        cluster = Cluster([pod_ip], port=9042)
-        session = cluster.connect()
-
-        try:
-            session.execute(CREATE_KEYSPACE)
-            logger.info("Keyspace created")
-
-            session.set_keyspace(KEYSPACE)
-            logger.info("Using keyspace my_keyspace")
-
-            session.execute(CREATE_TABLE)
-            logger.info("Table created")
-        except Exception as e:
-            logger.error(f"Error running Cassandra queries: {e}")
-        finally:
-            cluster.shutdown()
+        self.cassandra_manager.prepare_cassandra_statements()
 
     def is_statefulset_ready(self):
         statefulset = self.clients.apps_v1.read_namespaced_stateful_set(
