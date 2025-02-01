@@ -2,11 +2,12 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: cassandra
-  annotations:
-    "kubernetes.io/delete-pvc-on-scale-down": "true"
   labels:
     app: cassandra
 spec:
+  persistentVolumeClaimRetentionPolicy:
+    delete: "Retain"
+    whenScaled: "Delete"
   serviceName: cassandra
   replicas: 3
   selector:
