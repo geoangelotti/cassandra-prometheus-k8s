@@ -38,11 +38,11 @@ class KubernetesEnv:
     def delete(self):
         self.reset_manager.delete()
 
-    def monitor_failed_pvs(self):
+    def monitor_released_pvs(self):
         while True:
             pvs = self.clients.v1.list_persistent_volume()
             failed_pvs = [
-                pv for pv in pvs.items if pv.status.phase == 'Failed']
+                pv for pv in pvs.items if pv.status.phase == 'Released']
             self.clean_pvs(failed_pvs)
             time.sleep(30)
 
@@ -75,4 +75,4 @@ class KubernetesEnv:
 
 if __name__ == "__main__":
     environment = KubernetesEnv()
-    environment.monitor_failed_pvs()
+    environment.monitor_released_pvs()
