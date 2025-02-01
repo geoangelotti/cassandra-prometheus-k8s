@@ -1,3 +1,4 @@
+import json
 from kubernetes import client, config
 import logging
 import time
@@ -48,7 +49,8 @@ class KubernetesEnv:
     def clean_pvs(self, pvs: List[Any]):
         for pv in pvs:
             name = pv.metadata.name
-            logger.error(f"Deleting PV: {name}")
+            path = pv.spec.local.path
+            logger.error(f"Deleting PV: {name}, path: {path}")
             logger.error(f"PV: {pv}")
 
 
