@@ -16,7 +16,7 @@ def create_pv_yaml(name, storage_size, path, node):
                 "storage": storage_size
             },
             "accessModes": ["ReadWriteOnce"],
-            "persistentVolumeReclaimPolicy": "Delete",
+            "persistentVolumeReclaimPolicy": "Retain",
             "storageClassName": "local-storage",
             "local": {
                 "path": path

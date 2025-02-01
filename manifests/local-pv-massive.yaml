@@ -18,7 +18,7 @@ spec:
           operator: In
           values:
           - node2
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -40,7 +40,7 @@ spec:
           operator: In
           values:
           - node2
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -62,7 +62,7 @@ spec:
           operator: In
           values:
           - node2
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -84,7 +84,7 @@ spec:
           operator: In
           values:
           - node3
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -106,7 +106,7 @@ spec:
           operator: In
           values:
           - node3
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -128,7 +128,7 @@ spec:
           operator: In
           values:
           - node3
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -150,7 +150,7 @@ spec:
           operator: In
           values:
           - node4
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -172,7 +172,7 @@ spec:
           operator: In
           values:
           - node4
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -194,7 +194,7 @@ spec:
           operator: In
           values:
           - node4
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -216,7 +216,7 @@ spec:
           operator: In
           values:
           - node5
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -238,7 +238,7 @@ spec:
           operator: In
           values:
           - node5
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -260,7 +260,7 @@ spec:
           operator: In
           values:
           - node5
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -282,7 +282,7 @@ spec:
           operator: In
           values:
           - node6
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -304,7 +304,7 @@ spec:
           operator: In
           values:
           - node6
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
 ---
 apiVersion: v1
@@ -326,5 +326,5 @@ spec:
           operator: In
           values:
           - node6
-  persistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Retain
   storageClassName: local-storage
