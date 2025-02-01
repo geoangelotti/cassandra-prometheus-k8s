@@ -98,7 +98,12 @@ class ResetManager:
                 name=hpa_name, namespace=self.namespace, body=client.V1DeleteOptions())
 
     def prepare_cassandra_statements(self):
-        cluster = Cluster(['localhost'], port=9042)
+        v1 = self.clients.v1
+        pod_name = "cassandra-0"
+        pod = v1.read_namespaced_pod(name=pod_name, namespace=self.namespace)
+        pod_ip = pod.status.pod_ip
+
+        cluster = Cluster([pod_ip], port=9042)
         session = cluster.connect()
 
         try:
