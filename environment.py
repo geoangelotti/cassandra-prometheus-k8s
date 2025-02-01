@@ -61,8 +61,8 @@ class KubernetesEnv:
 
     def clean_mnt_directory(self, node: str, path: str):
         command = f"rm -rf {path}/*"
-        ssh_command = f"ssh ubuntu@{node} '{command}'"
-        self.reset_manager.run_command(ssh_command)
+        ssh_command = ["ssh", f"ubuntu@{node}", f"'{command}'"]
+        self.reset_manager.try_subprocess(ssh_command)
 
     def delete_pv(self, pv_name: str):
         try:
