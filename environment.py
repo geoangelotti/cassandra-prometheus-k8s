@@ -52,7 +52,7 @@ class KubernetesEnv:
             path = pv.spec.local.path
             node = pv.spec.node_affinity.required.node_selector_terms[
                 0].match_expressions[0].values[0]
-            # self.delete_pv(name)
+            self.delete_pv(name)
             self.clean_mnt_directory(node, path)
             logger.info(f"Persistent Volume {name} cleaned successfully.")
         if pvs:
@@ -60,8 +60,9 @@ class KubernetesEnv:
                 "manifests/local-pv-massive.yaml")
 
     def clean_mnt_directory(self, node: str, path: str):
-        command = f"ls -rf {path}/*"
-        ssh_command = ["ssh", f"ubuntu@{node}", f"'{command}'"]
+        command = f"rm -rf {path}/*"
+        ssh_command = ["ssh", f"ubuntu@{node}", f"{command}"]
+        logger.info(" ".join(ssh_command))
         self.reset_manager.try_subprocess(ssh_command)
 
     def delete_pv(self, pv_name: str):
