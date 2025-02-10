@@ -1,5 +1,7 @@
 #!/bin/bash
 
+/home/ubuntu/cassandra-prometheus-k8s/cli.py reset
+
 CASSANDRA_HOSTS=$(kubectl get pods -l app=cassandra -o jsonpath='{.items[*].status.podIP}' | tr ' ' ',')
 CURRENT_TIME=$(date +"%Y-%m-%d_%H:%M:%S")
 THREADS=15
