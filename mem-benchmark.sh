@@ -5,7 +5,7 @@
 CASSANDRA_HOSTS=$(kubectl get pods -l app=cassandra -o jsonpath='{.items[*].status.podIP}' | tr ' ' ',')
 CURRENT_TIME=$(date +"%Y-%m-%d_%H:%M:%S")
 THREADS=500
-OPERATIONCOUNT=50000000
+OPERATIONCOUNT=55000000
 RECORDCOUNT=100000
 
 kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
