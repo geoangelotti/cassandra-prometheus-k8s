@@ -11,7 +11,7 @@ RECORDCOUNT=2000000
 kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
 sleep 10
 cd /home/ubuntu/ycsb || exit
-LOG_DIR= /home/ubuntu/cassandra-prometheus-k8s/logs/disk/${CURRENT_TIME}
+LOG_DIR=/home/ubuntu/cassandra-prometheus-k8s/logs/disk/${CURRENT_TIME}
 mkdir -p ${LOG_DIR}
 /home/ubuntu/ycsb/bin/ycsb load cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaConstant -threads ${THREADS} -p recordcount=${RECORDCOUNT} | tee ${LOG_DIR}/load.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_load_status.log
