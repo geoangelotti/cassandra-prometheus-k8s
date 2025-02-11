@@ -43,10 +43,10 @@ class KubernetesEnv:
             pvs = self.clients.v1.list_persistent_volume()
             released_pvs = [
                 pv for pv in pvs.items if pv.status.phase == 'Released']
-            self.clean_pvs(released_pvs)
+            self.recycle_pvs(released_pvs)
             time.sleep(30)
 
-    def clean_pvs(self, pvs: List[Any]):
+    def recycle_pvs(self, pvs: List[Any]):
         for pv in pvs:
             name = pv.metadata.name
             path = pv.spec.local.path
