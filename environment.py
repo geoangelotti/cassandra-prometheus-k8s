@@ -41,9 +41,9 @@ class KubernetesEnv:
     def monitor_released_pvs(self):
         while True:
             pvs = self.clients.v1.list_persistent_volume()
-            failed_pvs = [
+            released_pvs = [
                 pv for pv in pvs.items if pv.status.phase == 'Released']
-            self.clean_pvs(failed_pvs)
+            self.clean_pvs(released_pvs)
             time.sleep(30)
 
     def clean_pvs(self, pvs: List[Any]):
@@ -62,7 +62,8 @@ class KubernetesEnv:
     def clean_mnt_directory(self, node: str, path: str):
         command = f"rm -rf {path}/*"
         ssh_command = ["ssh", f"ubuntu@{node}", f"{command}"]
-        logger.info(f'Command for clearing the directory: {" ".join(ssh_command)}')
+        logger.info(
+            f'Command for clearing the directory: {" ".join(ssh_command)}')
         self.reset_manager.try_subprocess(ssh_command)
 
     def delete_pv(self, pv_name: str):
