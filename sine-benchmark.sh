@@ -11,7 +11,7 @@ PERIOD=20000
 AMPLITUDE=100
 BASETARGET=150
 
-kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-sine.yaml
 sleep 10
 cd /home/ubuntu/ycsb || exit
 LOG_DIR=/home/ubuntu/cassandra-prometheus-k8s/logs/sine/${CURRENT_TIME}
@@ -21,5 +21,5 @@ kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/af
 sleep 30
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaSine -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p period=${PERIOD} -p amplitude=${AMPLITUDE} -p baseTarget=${BASETARGET} -p strategy=sine | tee ${LOG_DIR}/run.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status.log
-kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-sine.yaml
 kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods.log
