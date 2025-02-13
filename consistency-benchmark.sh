@@ -8,8 +8,8 @@ LOAD_THREADS=50
 THREADS=10
 LOG_DIR=/home/ubuntu/cassandra-prometheus-k8s/logs/consistency/${CURRENT_TIME}
 THREADS=20
-OPERATIONCOUNT=2000000
-RECORDCOUNT=1000000
+OPERATIONCOUNT=2500000
+RECORDCOUNT=2000000
 
 #kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
 sleep 10
