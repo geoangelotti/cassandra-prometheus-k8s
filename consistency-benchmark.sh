@@ -19,7 +19,7 @@ kubectl scale statefulset cassandra --replicas=10
 sleep 6m
 /home/ubuntu/ycsb/bin/ycsb load cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaConstant -threads ${LOAD_THREADS} -p recordcount=${RECORDCOUNT} | tee ${LOG_DIR}/load.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_load_status.log
-sleep 15m
+sleep 5m
 
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadb -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p cassandra.readconsistencylevel=ONE -p cassandra.writeconsistencylevel=ONE | tee ${LOG_DIR}/run_b_one.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status_b_one.log
