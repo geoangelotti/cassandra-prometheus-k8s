@@ -27,6 +27,12 @@ kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/af
 kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods_b_one.log
 sleep 3m
 
+/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadb -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p cassandra.readconsistencylevel=QUORUM -p cassandra.writeconsistencylevel=QUORUM | tee ${LOG_DIR}/run_b_quorum.log
+kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status_b_quorum.log
+#kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods_b_quorum.log
+sleep 3m
+
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadb -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p cassandra.readconsistencylevel=ALL -p cassandra.writeconsistencylevel=ALL | tee ${LOG_DIR}/run_b_all.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status_b_all.log
 #kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
@@ -37,6 +43,12 @@ sleep 3m
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status_a_one.log
 #kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
 kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods_a_one.log
+sleep 3m
+
+/home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloada -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p cassandra.readconsistencylevel=QUORUM -p cassandra.writeconsistencylevel=QUORUM | tee ${LOG_DIR}/run_a_quorum.log
+kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status_a_quorum.log
+#kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods_a_quorum.log
 sleep 3m
 
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloada -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p cassandra.readconsistencylevel=ALL -p cassandra.writeconsistencylevel=ALL | tee ${LOG_DIR}/run_a_all.log
