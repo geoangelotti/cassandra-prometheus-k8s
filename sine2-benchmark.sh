@@ -1,25 +1,25 @@
 #!/bin/bash
 
-/home/ubuntu/cassandra-prometheus-k8s/cli.py reset
+#/home/ubuntu/cassandra-prometheus-k8s/cli.py reset
 
 CASSANDRA_HOSTS=$(kubectl get pods -l app=cassandra -o jsonpath='{.items[*].status.podIP}' | tr ' ' ',')
 CURRENT_TIME=$(date +"%Y-%m-%d_%H:%M:%S")
 THREADS=15
 OPERATIONCOUNT=5000000
 RECORDCOUNT=100000
-PERIOD=2000000
+PERIOD=1200
 AMPLITUDE=100
 BASETARGET=150
 
-kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+kubectl apply -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-sine.yaml
 sleep 10
 cd /home/ubuntu/ycsb || exit
 LOG_DIR=/home/ubuntu/cassandra-prometheus-k8s/logs/sine2/${CURRENT_TIME}
 mkdir -p ${LOG_DIR}
-/home/ubuntu/ycsb/bin/ycsb load cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaConstant -threads ${THREADS} -p recordcount=${RECORDCOUNT} | tee ${LOG_DIR}/load.log
+#/home/ubuntu/ycsb/bin/ycsb load cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaConstant -threads ${THREADS} -p recordcount=${RECORDCOUNT} | tee ${LOG_DIR}/load.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_load_status.log
 sleep 30
 /home/ubuntu/ycsb/bin/ycsb run cassandra-cql -p hosts=${CASSANDRA_HOSTS} -s -P workloads/workloadaSine -threads ${THREADS} -p recordcount=${RECORDCOUNT} -p operationcount=${OPERATIONCOUNT} -p period=${PERIOD} -p amplitude=${AMPLITUDE} -p baseTarget=${BASETARGET} -p strategy=sine2 | tee ${LOG_DIR}/run.log
 kubectl exec -it cassandra-0 -c cassandra -- nodetool status | tee ${LOG_DIR}/after_run_status.log
-kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu.yaml
+#kubectl delete -f /home/ubuntu/cassandra-prometheus-k8s/manifests/cassandra-hpa-cpu-sine.yaml
 kubectl get pods --all-namespaces -o wide -l app=cassandra | tee ${LOG_DIR}/cassandra_pods.log
