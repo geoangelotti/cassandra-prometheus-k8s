@@ -1,7 +1,7 @@
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:
-  name: cassandra-hpa-cpu-sine
+  name: cassandra-hpa-cpu-sine-up
   namespace: default
 spec:
   scaleTargetRef:
@@ -16,14 +16,35 @@ spec:
       name: cpu
       target:
         type: Utilization
-        averageUtilization: 80
+        averageUtilization: 100
   behavior:
     scaleUp:
-      stabilizationWindowSeconds: 180
+      stabilizationWindowSeconds: 360
       policies:
       - type: Pods
         value: 1
-        periodSeconds: 180
+        periodSeconds: 360
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: cassandra-hpa-cpu-sine-down
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: StatefulSet
+    name: cassandra
+  minReplicas: 3
+  maxReplicas: 15
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 90
+  behavior:
     scaleDown:
       stabilizationWindowSeconds: 180
       policies:
